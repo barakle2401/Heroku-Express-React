@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Box, Button, Paper } from '@material-ui/core';
+import axios from "axios";
 const useStyles = makeStyles(({
     root: {
 
@@ -55,10 +56,31 @@ const useStyles = makeStyles(({
 
 function MainSection() {
     const classes = useStyles();
+    const [users, setUsers] = useState([])
+    const [isSending, setIsSending] = useState(false)
+
+    useEffect(() => {
+        // POST request using fetch inside useEffect React hook
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'React Hooks POST Request Example' })
+        };
+        fetch('http://localhost:9000/users', requestOptions)
+            .then(response => response.json())
+            .then((users) => setUsers(users.data)
+
+            );
+
+        // empty dependency array means this effect will only run once (like componentDidMount in classes)
+    }, []);
+
+
+
     return (
 
 
-        <Container maxWidth="xl" className={classes.root}>
+        < Container maxWidth="xl" className={classes.root} >
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} >
 
@@ -69,9 +91,10 @@ function MainSection() {
                     </div>
                     <Box display="flex" justifyContent="center" p={1} >
                         <Paper>
-                            <Button size="large" className={classes.signUpBtn} >
+                            <Button size="large" disabled={isSending} className={classes.signUpBtn} >
                                 SIGN UP NOW
                         </Button>
+                            {/* <ul>{users.map(user => <li key={user.id}>{user.name}{user.id} </li>)}</ul> */}
                         </Paper>
                     </Box>
 
@@ -84,7 +107,7 @@ function MainSection() {
 
             </Grid>
 
-        </Container>
+        </Container >
 
     );
 }

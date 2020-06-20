@@ -10,6 +10,16 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
 import { Paper, Typography } from '@material-ui/core/';
 
+
+
+import {
+    BrowserRouter,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
 const useStyles = makeStyles(({
     root: {
         flexGrow: 1,
@@ -26,7 +36,12 @@ const useStyles = makeStyles(({
     },
     progress: {
 
-        color: "white"
+        color: "white",
+        '& .MuiLinearProgress-barColorPrimary': {
+
+            backgroundColor: '#FE6B8B',
+            height: "1rem"
+        }
     }
 }));
 
@@ -46,21 +61,27 @@ function Header(props) {
         <AppBar >
             <LinearProgress variant="determinate" className={classes.progress} value={80} />
             <Paper>
+
                 <Toolbar>
 
                     <Typography variant="h6" className={classes.title}>
                         Junk Tracker
                     </Typography>
-                    <IconButton
+                    <Link to="/">
+                        <IconButton
 
-                    >
-                        <HomeOutlinedIcon />
-                    </IconButton>
-                    <IconButton
+                        >
+                            <HomeOutlinedIcon />
+                        </IconButton>
+                    </Link>
+                    <Link to="/login">
+                        <IconButton
 
-                    >
-                        <PermIdentityIcon />
-                    </IconButton>
+                        >
+                            <PermIdentityIcon />
+                        </IconButton>
+                    </Link>
+
                     <IconButton
 
                         onClick={props.switchMode}
